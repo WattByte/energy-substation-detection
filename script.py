@@ -21,16 +21,28 @@ def fetch_substations(north, east, south, west):
     else:
         raise Exception(f"Error {response.status_code}: {response.text}")
 
-north = input("Enter north-bound coordinate:")
-east = input("Enter east-bound coordinate:")
-south = input("Enter south-bound coordinate:")
-west = input("Enter west-bound coordinate:")
-provider = input("Is the provider AESO or ERCOT").upper()
+def run_program():
+    north = input("Enter north-bound coordinate:")
+    east = input("Enter east-bound coordinate:")
+    south = input("Enter south-bound coordinate:")
+    west = input("Enter west-bound coordinate:")
+    provider = input("Is the provider AESO or ERCOT:").upper()
 
-if (provider is not "AESO" or provider is not "ERCOT"):
-    return "Provider must be AESO or ERCOT"
+    if (provider not in ["AESO", "ERCOT"]):
+        print("Provider must be AESO or ERCOT")
+        return
 
-substations = fetch_substations(north, east, south, west)
+    substations = fetch_substations(north, east, south, west)
 
-for item in substations:
-    print(item["type"], item.get("id"), item.get("lat", item.get("center", {}).get("lat")), item.get("lon", item.get("center", {}).get("lon")))
+    for item in substations:
+        tags = item.get("tags", {})
+        voltage = tags.get("voltage")
+
+        if voltage:
+            print(voltage)
+            print(item)
+
+
+
+if __name__ == "__main__":
+    run_program()
