@@ -74,6 +74,9 @@ def get_ercot_api():
     # Placeholder
     return
 
+def set_pdf_metadata(canvas, doc):
+    canvas.setTitle("WattByte Substation Report")
+
 def get_lat_lon(substation):
     if 'center' in substation:
         return substation['center']['lat'], substation['center']['lon']
@@ -114,13 +117,14 @@ def run_program():
                 {emojize(f':high_voltage: Voltage: {voltage}')} 
             ''')
 
-    # Build the PDF for viewing
-    SimpleDocTemplate(
+    pdf = SimpleDocTemplate(
         'report.pdf',
         pagesize=letter,
         rightMargin=12, leftMargin=12,
         topMargin=12, bottomMargin=6
-    ).build(document)
+    )
+
+    pdf.build(document, onFirstPage=set_pdf_metadata, onLaterPages=set_pdf_metadata)
 
 if __name__ == "__main__":
     run_program()
