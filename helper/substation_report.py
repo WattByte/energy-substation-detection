@@ -30,7 +30,7 @@ paragraph_style = ParagraphStyle(
 
 # Document needed to build PDF file + basic setup
 document = []
-document.append(Image('images/logo.jpeg', 1.1*inch,1.1*inch))
+document.append(Image('static/images/logo.jpeg', 1.1*inch,1.1*inch))
 document.append(Paragraph('Substation Report', report_header_style))
 document.append(Spacer(1,45))
 
